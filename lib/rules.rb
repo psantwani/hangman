@@ -1,0 +1,48 @@
+class Rules
+	
+	@@dictionary = ["acres","adult","advice","arrangement","attempt","August","Autumn","border","breeze","brick","calm","canal","Casey","cast","chose","claws","coach","constantly","contrast","cookies","customs","damage","Danny","deeply","depth","discussion","doll","donkey","Egypt","Ellen","essential","exchange", "exist","explanation","facing","film","finest","fireplace","floating","folks","fort","garage","grabbed","grandmother","habit","happily","Harry","heading","hunter","Illinois","image","independent","instant","January","kids","label","Lee","lungs","manufacturing","Martin","mathematics","melted","memory","mill", "mission","monkey","Mount","mysterious","neighborhood","Norway","nuts","occasionally","official","ourselves","palace","Pennsylvania","Philadelphia","plates","poetry","policeman","positive","possibly","practical","pride","promised","recall","relationship","remarkable","require","rhyme","rocky","rubbed","rush","sale","satellites","satisfied", "scared","selection","shake","shaking","shallow","shout","silly","simplest","slight","slip","slope","soap","solar","species","spin","stiff","swung","tales","thumb","tobacco","toy","trap","treated","tune","University","vapor","vessels","wealth","wolf","zoo"]
+
+	def initialize
+		@@guess_word = ""
+		@@show_word_arr = []
+		@@guess_word = ""
+		@@used_letters = []
+		@@guess_word = @@dictionary[rand(0..@@dictionary.length-1)].downcase		
+		puts "Guess this " + @@guess_word.length.to_s + " letter word."
+	end	
+
+	def getWord
+		return @@guess_word
+	end	
+
+	def blanksFromWord
+		result = ""		
+		result = @@guess_word.sub(@@guess_word, "_ "*@@guess_word.length).strip
+		@@show_word_arr = result.split(" ")				
+		return result
+	end	
+
+	def checkWithWord(letter)
+
+		if @@used_letters.include? letter
+			return "repeat|" + @@show_word_arr.join(" ")
+		else
+			@@used_letters.push(letter)
+		end	
+				
+		indices = (0 ... @@guess_word.length).find_all { |i| @@guess_word[i,1] == letter }		
+		if indices.length == 0			
+			return "strike|" + @@show_word_arr.join(" ")
+		else			
+			for index in indices
+				@@show_word_arr[index] = letter
+			end
+			if @@show_word_arr.index("_") == nil
+				return "win|" + @@show_word_arr.join(" ")
+			else 
+				return "match|" + @@show_word_arr.join(" ")
+			end					
+		end			
+	end	
+
+end	
